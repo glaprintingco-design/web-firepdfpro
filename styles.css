@@ -117,9 +117,9 @@ a { text-decoration: none; color: inherit; }
   display: flex;
   align-items: center;
   gap: 40px;
-  height: 64px;
+  height: 76px;
 }
-.nav-logo img { height: 36px; display: block; }
+.nav-logo img { height: 56px; display: block; }
 
 .nav-links {
   display: flex;
@@ -457,7 +457,7 @@ a { text-decoration: none; color: inherit; }
   flex-wrap: wrap;
 }
 .footer-brand { flex: 1; min-width: 220px; }
-.footer-logo { height: 36px; margin-bottom: 16px; display: block; }
+.footer-logo { height: 56px; margin-bottom: 16px; display: block; }
 .footer-brand p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.65; max-width: 280px; }
 
 .footer-links { display: flex; gap: 60px; flex-wrap: wrap; }
