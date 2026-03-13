@@ -119,7 +119,7 @@ a { text-decoration: none; color: inherit; }
   gap: 40px;
   height: 76px;
 }
-.nav-logo img { height: 56px; display: block; }
+.nav-logo img { height: 112px; display: block; }
 
 .nav-links {
   display: flex;
