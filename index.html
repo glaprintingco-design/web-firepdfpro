@@ -8,36 +8,33 @@
   <link rel="icon" href="logo.png" type="image/png"/>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="styles.css"/>
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18013638371"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-18013638371');
+  </script>
+  
+  <script>
+  function gtag_report_conversion(url) {
+    var callback = function () {
+      if (typeof(url) != 'undefined') {
+        window.location = url;
+      }
+    };
+    gtag('event', 'conversion', {
+        'send_to': 'AW-18013638371/5pHMCKfz-occEOOdyY1D',
+        'event_callback': callback
+    });
+    return false;
+  }
+  </script>
 </head>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18013638371"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'AW-18013638371');
-</script>
-  <!-- Event snippet for Page view conversion page
-In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
-<script>
-function gtag_report_conversion(url) {
-  var callback = function () {
-    if (typeof(url) != 'undefined') {
-      window.location = url;
-    }
-  };
-  gtag('event', 'conversion', {
-      'send_to': 'AW-18013638371/5pHMCKfz-occEOOdyY1D',
-      'event_callback': callback
-  });
-  return false;
-}
-</script>
 
 <body>
 
-  <!-- NAV -->
   <nav class="navbar">
     <div class="nav-inner">
       <a href="index.html" class="nav-logo">
@@ -54,7 +51,6 @@ function gtag_report_conversion(url) {
     </div>
   </nav>
 
-  <!-- HERO -->
   <header class="hero">
     <div class="hero-bg"></div>
     <div class="hero-content">
@@ -104,7 +100,6 @@ function gtag_report_conversion(url) {
     </div>
   </header>
 
-  <!-- FEATURES -->
   <section class="features" id="features">
     <div class="container">
       <div class="section-header">
@@ -146,7 +141,6 @@ function gtag_report_conversion(url) {
     </div>
   </section>
 
-  <!-- HOW IT WORKS -->
   <section class="how" id="how">
     <div class="container">
       <div class="section-header light">
@@ -178,12 +172,11 @@ function gtag_report_conversion(url) {
         </div>
       </div>
       <div class="cta-center">
-        <a href="https://app.firepdfpro.com" class="btn-primary" target="_blank">Start for Free →</a>
+        <a href="https://app.firepdfpro.com" onclick="return gtag_report_conversion('https://app.firepdfpro.com');" class="btn-primary" target="_blank">Start for Free →</a>
       </div>
     </div>
   </section>
 
-  <!-- PRICING -->
   <section class="pricing" id="pricing">
     <div class="container">
       <div class="section-header">
@@ -202,7 +195,7 @@ function gtag_report_conversion(url) {
             <li>❌ Project history</li>
             <li>❌ Unlimited forms</li>
           </ul>
-          <a href="https://app.firepdfpro.com" class="btn-ghost-dark" target="_blank">Get Started Free</a>
+          <a href="https://app.firepdfpro.com" onclick="return gtag_report_conversion('https://app.firepdfpro.com');" class="btn-ghost-dark" target="_blank">Get Started Free</a>
         </div>
         <div class="pricing-card featured">
           <div class="plan-badge">Most Popular</div>
@@ -216,13 +209,12 @@ function gtag_report_conversion(url) {
             <li>✅ Full project history</li>
             <li>✅ Priority support</li>
           </ul>
-          <a href="https://app.firepdfpro.com" class="btn-primary" target="_blank">Go Pro →</a>
+          <a href="https://app.firepdfpro.com" onclick="return gtag_report_conversion('https://app.firepdfpro.com');" class="btn-primary" target="_blank">Go Pro →</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
   <footer class="footer">
     <div class="container">
       <div class="footer-top">
@@ -235,7 +227,7 @@ function gtag_report_conversion(url) {
             <h4>Product</h4>
             <a href="#features">Features</a>
             <a href="#pricing">Pricing</a>
-            <a href="https://app.firepdfpro.com" target="_blank">Launch App</a>
+            <a href="https://app.firepdfpro.com" onclick="return gtag_report_conversion('https://app.firepdfpro.com');" target="_blank">Launch App</a>
           </div>
           <div class="footer-col">
             <h4>Company</h4>
@@ -250,7 +242,7 @@ function gtag_report_conversion(url) {
         </div>
       </div>
       <div class="footer-bottom">
-        <p>© 2025 FirePDF Pro. All rights reserved.</p>
+        <p>© 2026 FirePDF Pro. All rights reserved.</p>
         <p>Not affiliated with FDNY or the City of New York.</p>
       </div>
     </div>
