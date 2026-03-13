@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FirePDF Pro – FDNY Form Automation for NYC Fire Contractors</title>
+  <meta name="description" content="Generate TM-1, A-433, and B-45 FDNY forms instantly. Built for NYC fire alarm contractors. Auto-fill from BIN number in seconds."/>
+  <link rel="icon" href="logo.png" type="image/png"/>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <img src="logo.png" alt="FirePDF Pro" />
+      </a>
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#how">How it Works</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+      <a href="https://app.firepdfpro.com" class="btn-nav" target="_blank">Launch App →</a>
+      <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-badge">🔥 Built for NYC Fire Alarm Contractors</div>
+      <h1>Stop Filling <span class="highlight">FDNY Forms</span> by Hand.</h1>
+      <p class="hero-sub">Enter a BIN number. Get TM-1, A-433, B-45 — auto-filled and ready to submit. In seconds.</p>
+      <div class="hero-actions">
+        <a href="https://app.firepdfpro.com" class="btn-primary" target="_blank">🔥 Try Free — No Credit Card</a>
+        <a href="#how" class="btn-ghost">See how it works ↓</a>
+      </div>
+      <div class="hero-proof">
+        <span>✅ TM-1 Application</span>
+        <span>✅ A-433-C</span>
+        <span>✅ B-45 Inspection</span>
+        <span>✅ Audit Report</span>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="doc-stack">
+        <div class="doc-card doc-1">
+          <div class="doc-label">TM-1</div>
+          <div class="doc-lines">
+            <div class="doc-line"></div>
+            <div class="doc-line short"></div>
+            <div class="doc-line"></div>
+            <div class="doc-line short"></div>
+            <div class="doc-line"></div>
+          </div>
+          <div class="doc-stamp">✔ AUTO-FILLED</div>
+        </div>
+        <div class="doc-card doc-2">
+          <div class="doc-label">A-433</div>
+          <div class="doc-lines">
+            <div class="doc-line"></div>
+            <div class="doc-line short"></div>
+            <div class="doc-line"></div>
+          </div>
+        </div>
+        <div class="doc-card doc-3">
+          <div class="doc-label">B-45</div>
+          <div class="doc-lines">
+            <div class="doc-line"></div>
+            <div class="doc-line short"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- FEATURES -->
+  <section class="features" id="features">
+    <div class="container">
+      <div class="section-header">
+        <h2>Everything You Need to Submit<br/><span class="highlight">Faster Than Ever</span></h2>
+        <p>No more manual lookup. No more typos. No more wasted hours.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>Instant BIN Lookup</h3>
+          <p>Enter any NYC Building Identification Number and we pull address, ownership, and building data automatically from DOB records.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📄</div>
+          <h3>4 Forms at Once</h3>
+          <p>Generate TM-1, A-433-C, B-45 Inspection Request, and a full Audit Report — all pre-filled and ready for submission.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🏢</div>
+          <h3>Your Company Profile</h3>
+          <p>Set your contractor details once. Every form you generate automatically includes your license, address, and signature line.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📦</div>
+          <h3>ZIP Download</h3>
+          <p>Download all forms in a single ZIP file, organized by address. Keep your project folders clean and submission-ready.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔒</div>
+          <h3>Secure & Private</h3>
+          <p>Your data stays yours. We use Supabase with row-level security. No documents are stored on our servers after download.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📁</div>
+          <h3>Project History</h3>
+          <p>Every job you generate is saved to your account. Revisit past projects, regenerate forms, and track all your submissions.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how" id="how">
+    <div class="container">
+      <div class="section-header light">
+        <h2>From BIN to PDF in <span class="highlight">3 Steps</span></h2>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">01</div>
+          <div class="step-content">
+            <h3>Enter the BIN Number</h3>
+            <p>Type the Building Identification Number for the job site. We look up everything from NYC DOB automatically.</p>
+          </div>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+          <div class="step-number">02</div>
+          <div class="step-content">
+            <h3>Add Your Devices</h3>
+            <p>Input the fire alarm devices for this job — pull stations, detectors, speakers. The forms populate in real time.</p>
+          </div>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+          <div class="step-number">03</div>
+          <div class="step-content">
+            <h3>Download & Submit</h3>
+            <p>Click Generate. Download your ZIP with all four documents, ready for FDNY submission.</p>
+          </div>
+        </div>
+      </div>
+      <div class="cta-center">
+        <a href="https://app.firepdfpro.com" class="btn-primary" target="_blank">Start for Free →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing" id="pricing">
+    <div class="container">
+      <div class="section-header">
+        <h2>Simple, Honest <span class="highlight">Pricing</span></h2>
+        <p>Start free. Upgrade when you're ready to scale.</p>
+      </div>
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <div class="plan-name">Free</div>
+          <div class="plan-price">$0<span>/month</span></div>
+          <ul class="plan-features">
+            <li>✅ 2 form sets per month</li>
+            <li>✅ TM-1, A-433, B-45, Report</li>
+            <li>✅ BIN auto-fill</li>
+            <li>✅ ZIP download</li>
+            <li>❌ Project history</li>
+            <li>❌ Unlimited forms</li>
+          </ul>
+          <a href="https://app.firepdfpro.com" class="btn-ghost-dark" target="_blank">Get Started Free</a>
+        </div>
+        <div class="pricing-card featured">
+          <div class="plan-badge">Most Popular</div>
+          <div class="plan-name">Pro</div>
+          <div class="plan-price">$349<span>/year</span></div>
+          <ul class="plan-features">
+            <li>✅ Unlimited form sets</li>
+            <li>✅ TM-1, A-433, B-45, Report</li>
+            <li>✅ BIN auto-fill</li>
+            <li>✅ ZIP download</li>
+            <li>✅ Full project history</li>
+            <li>✅ Priority support</li>
+          </ul>
+          <a href="https://app.firepdfpro.com" class="btn-primary" target="_blank">Go Pro →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <img src="logo.png" alt="FirePDF Pro" class="footer-logo" />
+          <p>Automated FDNY form generation for NYC fire alarm contractors.</p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-col">
+            <h4>Product</h4>
+            <a href="#features">Features</a>
+            <a href="#pricing">Pricing</a>
+            <a href="https://app.firepdfpro.com" target="_blank">Launch App</a>
+          </div>
+          <div class="footer-col">
+            <h4>Company</h4>
+            <a href="about.html">About</a>
+            <a href="mailto:support@firepdfpro.com">Contact</a>
+          </div>
+          <div class="footer-col">
+            <h4>Legal</h4>
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="terms.html">Terms of Service</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 FirePDF Pro. All rights reserved.</p>
+        <p>Not affiliated with FDNY or the City of New York.</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
