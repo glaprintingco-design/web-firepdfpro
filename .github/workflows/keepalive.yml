@@ -1,0 +1,91 @@
+name: Keep app awake
+
+# Mantiene despierto el servicio de Render de firepdfpro.com.
+# El plan free de Render duerme el servicio tras 15 minutos sin tráfico y luego
+# tarda ~50 s en arrancar en frío, así que hacemos un GET a un endpoint ligero
+# cada 10 minutos, SOLO de lunes a viernes de 07:00 a 20:00 hora de Nueva York.
+# Fuera de ese horario la app duerme a propósito.
+#
+# Por qué la lógica está partida en dos (cron + paso "gate"):
+#   El cron de GitHub Actions solo entiende UTC y no sabe nada del horario de
+#   verano. Nueva York es UTC-4 en verano (EDT) y UTC-5 en invierno (EST), así
+#   que el `schedule` abre una ventana UTC ancha que cubre ambos casos y el paso
+#   "gate" descarta las ejecuciones que caen fuera del horario real de NY.
+#   Resultado: el horario es correcto todo el año sin tocar nada en marzo/noviembre.
+
+on:
+  schedule:
+    # 07:00-19:50 EDT (verano)  /  06:00-18:50 EST (invierno)
+    - cron: '*/10 11-23 * * 1-5'
+    # Solo aporta en invierno: 19:00-19:50 EST, que en UTC ya es el día siguiente
+    # (por eso los días son 2-6 = mar-sáb en UTC, o sea lun-vie en Nueva York).
+    - cron: '*/10 0 * * 2-6'
+  workflow_dispatch:   # lanzar a mano para probar (ignora el horario)
+
+permissions:
+  contents: write   # solo lo usa el heartbeat semanal de abajo
+
+concurrency:
+  group: keepalive
+  cancel-in-progress: false
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: ¿Estamos dentro del horario de Nueva York?
+        id: gate
+        run: |
+          echo "Hora en Nueva York: $(TZ=America/New_York date '+%a %Y-%m-%d %H:%M %Z')"
+
+          if [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then
+            echo "Ejecución manual: se hace ping sin comprobar el horario."
+            echo "run=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          dow=$(TZ=America/New_York date +%u)     # 1=lunes ... 7=domingo
+          hour=$(TZ=America/New_York date +%-H)   # 0-23, sin cero a la izquierda
+          minute=$(TZ=America/New_York date +%-M)
+
+          if [ "$dow" -le 5 ] && [ "$hour" -ge 7 ] && [ "$hour" -lt 20 ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Fuera de horario laboral: se deja dormir la app."
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+
+          # Un único disparo por semana (lunes ~07:0x NY) para el heartbeat.
+          if [ "$dow" -eq 1 ] && [ "$hour" -eq 7 ] && [ "$minute" -lt 10 ]; then
+            echo "weekly=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Ping a firepdfpro.com
+        if: steps.gate.outputs.run == 'true'
+        run: |
+          curl -fsS -o /dev/null \
+            --max-time 90 \
+            --retry 2 --retry-delay 15 --retry-all-errors \
+            -w 'HTTP %{http_code} en %{time_total}s\n' \
+            https://firepdfpro.com/robots.txt
+
+      # GitHub desactiva los workflows programados de un repo PÚBLICO tras 60 días
+      # sin actividad. Este commit semanal reinicia ese contador para que el ping
+      # no se apague solo. Si prefieres no tener commits automáticos, borra estos
+      # dos pasos y `permissions: contents: write`: el ping sigue funcionando, pero
+      # cada ~60 días GitHub te mandará un email para reactivarlo a mano.
+      - name: Checkout (solo para el heartbeat)
+        if: steps.gate.outputs.weekly == 'true'
+        uses: actions/checkout@v4
+
+      - name: Heartbeat semanal
+        if: steps.gate.outputs.weekly == 'true'
+        run: |
+          mkdir -p .github
+          date -u '+%Y-%m-%dT%H:%M:%SZ' > .github/keepalive-heartbeat.txt
+          git config user.name  'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add .github/keepalive-heartbeat.txt
+          git commit -m 'chore: heartbeat semanal (mantiene activo el cron de keepalive)'
+          git push
