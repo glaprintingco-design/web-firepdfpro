@@ -1,10 +1,13 @@
 name: Keep app awake
 
-# Mantiene despierto el servicio de Render de firepdfpro.com.
-# El plan free de Render duerme el servicio tras 15 minutos sin tráfico y luego
-# tarda ~50 s en arrancar en frío, así que hacemos un GET a un endpoint ligero
-# cada 10 minutos, SOLO de lunes a viernes de 07:00 a 20:00 hora de Nueva York.
-# Fuera de ese horario la app duerme a propósito.
+# Mantiene despiertos el servicio de Render de firepdfpro.com Y su base de datos
+# de Supabase con un solo GET a /api/db-ping (la ruta toca Supabase, cuyo free
+# tier se pausa tras 7 días sin actividad; el de Render duerme tras 15 minutos
+# sin tráfico y tarda ~50 s en arrancar en frío).
+# Ping cada 10 minutos, TODOS los días de 07:00 a 20:00 hora de Nueva York.
+# De noche la app duerme a propósito (ahorra horas free de Render).
+# 2026-08-31: se extendió de L-V a 7 días (los cold starts de fin de semana
+# espantaban visitantes) y el ping pasó de /robots.txt a /api/db-ping.
 #
 # Por qué la lógica está partida en dos (cron + paso "gate"):
 #   El cron de GitHub Actions solo entiende UTC y no sabe nada del horario de
@@ -16,10 +19,9 @@ name: Keep app awake
 on:
   schedule:
     # 07:00-19:50 EDT (verano)  /  06:00-18:50 EST (invierno)
-    - cron: '*/10 11-23 * * 1-5'
-    # Solo aporta en invierno: 19:00-19:50 EST, que en UTC ya es el día siguiente
-    # (por eso los días son 2-6 = mar-sáb en UTC, o sea lun-vie en Nueva York).
-    - cron: '*/10 0 * * 2-6'
+    - cron: '*/10 11-23 * * *'
+    # Solo aporta en invierno: 19:00-19:50 EST, que en UTC ya es el día siguiente.
+    - cron: '*/10 0 * * *'
   workflow_dispatch:   # lanzar a mano para probar (ignora el horario)
 
 permissions:
@@ -49,10 +51,11 @@ jobs:
           hour=$(TZ=America/New_York date +%-H)   # 0-23, sin cero a la izquierda
           minute=$(TZ=America/New_York date +%-M)
 
-          if [ "$dow" -le 5 ] && [ "$hour" -ge 7 ] && [ "$hour" -lt 20 ]; then
+          # 7 días por semana: solo se filtra por hora (07:00-19:59 NY).
+          if [ "$hour" -ge 7 ] && [ "$hour" -lt 20 ]; then
             echo "run=true" >> "$GITHUB_OUTPUT"
           else
-            echo "Fuera de horario laboral: se deja dormir la app."
+            echo "Fuera de horario: se deja dormir la app."
             echo "run=false" >> "$GITHUB_OUTPUT"
           fi
 
@@ -61,14 +64,17 @@ jobs:
             echo "weekly=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Ping a firepdfpro.com
+      - name: Ping a firepdfpro.com (Render + Supabase)
         if: steps.gate.outputs.run == 'true'
         run: |
-          curl -fsS -o /dev/null \
+          # /api/db-ping toca Supabase, así que este GET mantiene vivos los dos.
+          # La ruta responde 200 aunque Supabase falle (el detalle queda en los
+          # logs de Render), así que un fallo aquí significa que la APP está caída.
+          curl -fsS \
             --max-time 90 \
             --retry 2 --retry-delay 15 --retry-all-errors \
-            -w 'HTTP %{http_code} en %{time_total}s\n' \
-            https://firepdfpro.com/robots.txt
+            -w '\nHTTP %{http_code} en %{time_total}s\n' \
+            https://firepdfpro.com/api/db-ping
 
       # GitHub desactiva los workflows programados de un repo PÚBLICO tras 60 días
       # sin actividad. Este commit semanal reinicia ese contador para que el ping
